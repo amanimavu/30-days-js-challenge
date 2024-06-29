@@ -1,0 +1,52 @@
+p {
+  text-transform: uppercase;
+  color: yellow;
+  margin: 4px 0px;
+  font-size: 0.8em;
+  font-weight: bold;
+}
+
+h6 {
+  margin: 4px 0px;
+  font-size: 1em;
+}
+
+.drum-key {
+  display: flex;
+  flex-direction: column;
+  border: solid 2px black;
+  height: auto;
+  width: 80px;
+  justify-content: center;
+  align-items: center;
+  margin: 0 16px;
+  backdrop-filter: blur(5px);
+  background-color: rgba(255, 255, 255, 0.3);
+  cursor: pointer;
+  z-index: 10;
+}
+
+.active {
+  transform: scale(1.2);
+  border-color: yellow;
+  transition: all 0.1s;
+  box-shadow: 0 0 10px yellow;
+}
+
+body {
+  background-image: url("./jordan-whitt-b8rkmfxZjdU-unsplash.jpg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.drum-kit {
+  display: flex;
+  justify-content: center;
+  position: relative;
+  top: 45%;
+}
