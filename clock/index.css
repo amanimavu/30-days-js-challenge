@@ -1,0 +1,49 @@
+body {
+  background-image: url("images/mae-mu-bauqYdmadYw-unsplash.jpg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 100vh;
+  backdrop-filter: brightness(50%) blur(5px);
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.clock {
+  width: 300px;
+  height: 300px;
+  border: solid 40px orange;
+  position: relative;
+  border-radius: 50%;
+}
+
+.hands {
+  height: 5px;
+  background-color: black;
+  position: absolute;
+  top: 50%;
+  transform-origin: 100%;
+}
+
+.tick {
+  transition: all cubic-bezier(0.32, 3.35, 0.58, 1) 0.5s;
+}
+
+.minute-hand {
+  width: 50%;
+  width: 48%;
+  left: 2%;
+}
+
+.hour-hand {
+  width: 38%;
+  left: 12%;
+}
+
+.second-hand {
+  width: 48%;
+  left: 2%;
+  height: 3px;
+}
