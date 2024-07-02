@@ -1,0 +1,57 @@
+:root {
+  --base: pink;
+  --spacing: 20px;
+  --blur: 5px;
+}
+
+body {
+  padding: 20px;
+  margin: 0;
+  height: 100vh;
+  box-sizing: border-box;
+  background-color: #eeeeee;
+}
+
+.highlight {
+  color: var(--base);
+}
+
+.picture-wrapper {
+  height: 50%;
+  width: 50%;
+  position: relative;
+  top: 15%;
+  left: 25%;
+  padding: var(--spacing);
+  background-color: var(--base);
+}
+
+.picture {
+  background-image: url("images/mae-mu-bauqYdmadYw-unsplash.jpg");
+  background-size: cover;
+  width: 100%;
+  height: 100%;
+  filter: blur(var(--blur));
+}
+
+.range > label {
+  display: block;
+}
+
+.controls div:last-child > label {
+  margin-right: 10px;
+}
+
+.controls > div {
+  margin-right: 20px;
+}
+
+h1 {
+  text-align: center;
+  margin-top: 0;
+}
+
+.controls {
+  display: flex;
+  justify-content: center;
+}
