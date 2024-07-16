@@ -23,43 +23,55 @@
       const endpoint =
         "https://gist.githubusercontent.com/Miserlou/c5cd8364bf9b2420bb29/raw/2bf258763cdddd704f8ffd3ea9a3e81d25e2c6f6/cities.json";
 
-      function eventHandler(e) {
-        const list = document.querySelector("ul");
-        const listItems = list.querySelectorAll("li");
-        let lastListItem;
+      let locations = [];
 
-        listItems.forEach((listItem) => {
-          if (
-            !listItem.textContent.startsWith("Filter for") &&
-            !listItem.textContent.startsWith("or a state")
-          ) {
-            listItem.remove();
-          } else {
-            if (listItem.textContent.startsWith("Filter for")) {
-              lastListItem = listItem;
-            }
-          }
-        });
-        const value = this.value;
+      fetch(endpoint).then((response) => {
+        response.json().then((data) => locations.push(...data));
+      });
 
-        fetch(myRequest).then((response) => {
-          response.json().then((data) => {
-            const filteredLocation = data.filter((location) => {
-              return location.city
-                .toLowerCase()
-                .trim()
-                .startsWith(value.toLowerCase());
-            });
-            filteredLocation.forEach((location) => {
-              const listItem = document.createElement("li");
-              listItem.textContent = location.city;
-              list.insertBefore(listItem, lastListItem);
-            });
-          });
+      function formatPopulation(population) {
+        return population.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+      }
+
+      function filterLocations(searchTerm, locations) {
+        return locations.filter((location) => {
+          const searchPattern = new RegExp(searchTerm, "gi");
+          return (
+            location.city.match(searchPattern) ||
+            location.state.match(searchPattern)
+          );
         });
       }
+
       const input = document.querySelector("input");
-      input.addEventListener("input", eventHandler);
+      const suggestions = document.querySelector(".suggestions");
+
+      function displayLocations() {
+        const value = this.value;
+        const filteredLocations = filterLocations(value, locations);
+        const locationList = filteredLocations
+          .map((location) => {
+            const searchRegex = new RegExp(value, "gi");
+            const matchedCity = location.city.replace(
+              searchRegex,
+              `<span class="hl">${value}</span>`
+            );
+            const matchedState = location.state.replace(
+              searchRegex,
+              `<span class="hl">${value}</span>`
+            );
+
+            return `<li>
+                <span class="name">${matchedCity}, ${matchedState}</span><span ="population">${formatPopulation(
+              location.population
+            )}</span>
+                </li>`;
+          })
+          .join("");
+        suggestions.innerHTML = locationList;
+      }
+
+      input.addEventListener("keyup", displayLocations);
 
       const myRequest = new Request(endpoint);
     </script>
