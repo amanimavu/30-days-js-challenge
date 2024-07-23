@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Console Tricks!</title>
+    <link rel="icon" href="https://fav.farm/🔥" />
+  </head>
+  <body>
+    <p onClick="makeGreen()">×BREAK×DOWN×</p>
+
+    <script type="module">
+      import { Octokit, App } from "https://esm.sh/octokit";
+      const dogs = [
+        { name: "Snickers", age: 2 },
+        { name: "hugo", age: 8 },
+      ];
+
+      function makeGreen() {
+        const p = document.querySelector("p");
+        p.style.color = "#BADA55";
+        p.style.fontSize = "50px";
+      }
+
+      // Regular
+      console.log("Hello console");
+
+      // Interpolated
+      console.log("Hello I am a %s string", "short");
+
+      // Styled
+      console.log(
+        "%c I am some great text",
+        "font-size: 20px; background-color: grey"
+      );
+
+      // warning!
+      console.warn("Something is going to break");
+
+      // Error :|
+      console.error("Something broke");
+
+      // Info
+      console.info(
+        "Did you know that a day on Venus is longer than a year on Venus"
+      );
+
+      // Testing
+      console.assert(1 === 2, "1 does not equal 2");
+
+      // clearing
+
+      //console.clear();
+
+      // Viewing DOM Elements
+      const paragraph = document.querySelector("p");
+      console.log(paragraph);
+      console.dir(paragraph);
+
+      // Grouping together
+      dogs.forEach((dog) => {
+        console.groupCollapsed(dog.name);
+        console.log(`This is ${dog.name}`);
+        console.log(`${dog.name} is ${dog.age} years`);
+        console.log(`${dog.name} is ${dog.age * 7} dog years`);
+        console.groupEnd(dog.name);
+      });
+
+      // counting
+      console.count("Amani");
+      console.count("Amani");
+      console.count("Amani");
+      console.count("Mavu");
+      console.count("Mavu");
+
+      // timing
+      const user = "njeririziki";
+      console.time("Fetching data");
+      fetch(`https://api.github.com/users`)
+        .then((response) =>
+          response
+            .json()
+            .then((data) => {
+              console.timeEnd("Fetching data");
+              console.log(data);
+            })
+            .catch((err) => {
+              console.error(err);
+            })
+        )
+        .catch((err) => {
+          console.error(err);
+        });
+
+      //tabulate data
+      console.table(dogs);
+    </script>
+  </body>
+</html>
