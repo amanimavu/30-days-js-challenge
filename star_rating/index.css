@@ -1,0 +1,42 @@
+body {
+  padding: 20px;
+  box-sizing: content-box;
+  height: 100vh;
+}
+
+.star {
+  width: 50px;
+  aspect-ratio: 1;
+  background-color: #d3d3d3;
+  /* or more simple */
+  clip-path: polygon(50% 0, 79% 90%, 2% 35%, 98% 35%, 21% 90%);
+}
+
+.star:hover {
+  cursor: pointer;
+}
+
+.container {
+  display: flex;
+  /* border: solid 2px yellow; */
+  gap: 1.3em;
+}
+
+.selected {
+  background-color: black;
+  /* transition: background-color 0.2s ease-in-out; */
+  /* delay iteration-count direction fill-mode */
+}
+
+.limit {
+  animation: pulse 0.2s ease-in;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1.5);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
