@@ -1,53 +1,89 @@
 const playPauseBtn = document.querySelector("button.toggle");
+const player = document.querySelector(".player");
 const video = document.querySelector("video");
+const progress = document.querySelector(".progress");
 const progressBar = document.querySelector(".progress__filled");
 const volume = document.querySelector("input[name='volume']");
 const playbackRate = document.querySelector("input[name='playbackRate']");
-const skipBack = document.querySelector(".player__button[data-skip='-10']");
-const skipForward = document.querySelector(".player__button[data-skip='25']");
+const skipButtons = player.querySelectorAll("[data-skip]");
+let mousedown = false;
 
-console.dir(video);
-
-function handlePlayPause() {
-  if (this.textContent === "►") {
-    this.textContent = "||";
-    // console.dir(video);
-    video.play();
-  } else {
-    this.textContent = "►";
-    video.pause();
-  }
+//event handlers
+function togglePlay() {
+    video.paused ? video.play() : video.pause();
 }
+
+function updateButton() {
+    playPauseBtn.textContent = this.paused ? "||" : "►";
+}
+
+const skip = (step) => {
+    video.currentTime += parseFloat(step);
+};
 
 function handleProgress() {
-  // currentTime
-  // duration
-  const progress = (this.currentTime / this.duration) * 100;
-
-  progressBar.style.flexBasis = `${progress}%`;
+    const progress = (this.currentTime / this.duration) * 100;
+    progressBar.style.flexBasis = `${progress}%`;
 }
 
-function handleVideoClick() {
-  this.paused ? this.play() : this.pause();
+function handleSetInitial() {
+    progressBar.style.flexBasis = "0%";
 }
 
 function handleVolume() {
-  video.volume = this.value;
+    video.volume = this.value;
 }
 
 function handlePlayBackRate() {
-  video.playbackRate = this.value;
+    video.playbackRate = this.value;
 }
 
-function handleSkip() {
-  const skipValue = parseFloat(video.currentTime) + parseInt(this.dataset.skip);
-  video.currentTime = skipValue;
+function handleKeyPress(e) {
+    if (e.keyCode === 32) {
+        togglePlay();
+    }
+    if (e.keyCode === 39) {
+        skip(25);
+    }
+    if (e.keyCode === 37) {
+        skip(-10);
+    }
 }
 
-playPauseBtn.addEventListener("click", handlePlayPause);
-video.addEventListener("click", handleVideoClick);
+function scrub(e) {
+    const ratio = e.offsetX / video.offsetWidth;
+    console.log(video.offsetWidth);
+    const videoDuration = video.duration;
+    const scrubTime = parseFloat(ratio * videoDuration);
+    console.log(scrubTime);
+    video.currentTime = scrubTime;
+}
+
+playPauseBtn.addEventListener("click", togglePlay);
+video.addEventListener("click", togglePlay);
+video.addEventListener("play", updateButton);
+video.addEventListener("pause", updateButton);
+
+skipButtons.forEach((skipBtn) =>
+    skipBtn.addEventListener("click", () => skip(skipBtn.dataset.skip))
+);
+
+//event listeners
 video.addEventListener("timeupdate", handleProgress);
+
+progress.addEventListener("click", scrub);
+progress.addEventListener("mousedown", () => {
+    mousedown = true;
+});
+progress.addEventListener("mouseup", () => {
+    mousedown = false;
+});
+progress.addEventListener("mousemove", (e) => {
+    mousedown && scrub(e);
+});
+
 volume.addEventListener("input", handleVolume);
 playbackRate.addEventListener("input", handlePlayBackRate);
-skipBack.addEventListener("click", handleSkip);
-skipForward.addEventListener("click", handleSkip);
+
+document.addEventListener("DOMContentLoaded", handleSetInitial);
+document.addEventListener("keyup", handleKeyPress);
